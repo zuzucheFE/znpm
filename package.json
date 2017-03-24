@@ -1,6 +1,6 @@
 {
   "name": "zuzuche-npm",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "一个参考cnpm的做法，然后修改了一些自己需要的参数的npm，租租车的npm，znpm",
   "main": "./bin/znpm",
   "scripts": {
@@ -25,20 +25,24 @@
     "url": "https://github.com/LLLLLamHo/znpm/issues"
   },
   "respositories": {
-    "url" : "https://github.com/LLLLLamHo/znpm"
+    "url": "https://github.com/LLLLLamHo/znpm"
   },
   "author": "LamHo",
   "license": "ISC",
   "devDependencies": {
     "auto-correct": "^1.0.0",
+    "colors": "^1.1.2",
     "commander": "^2.9.0",
     "cross-spawn": "^5.1.0",
-    "npm": "^4.3.0"
+    "npm": "^4.3.0",
+    "urllib": "^2.21.2"
   },
   "dependencies": {
+    "colors": "^1.1.2",
     "auto-correct": "^1.0.0",
     "commander": "^2.9.0",
     "cross-spawn": "^5.1.0",
-    "npm": "^4.3.0"
+    "npm": "^4.3.0",
+    "urllib": "^2.21.2"
   }
 }

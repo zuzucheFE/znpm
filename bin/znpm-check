@@ -1,0 +1,113 @@
+#!/usr/bin/env node
+
+'use strict';
+
+/**
+ * Module dependencies.
+ */
+
+const path = require('path');
+const urllib = require('urllib');
+const colors = require('colors');
+const config = require('../lib/config');
+const parseArgv = require('../lib/parse_argv');
+
+const program = parseArgv();
+const args = program.args;
+const pkg = require(path.join(process.cwd(), 'package.json'));
+
+
+let needUpdataArr = [];
+let type = args[1] == 'dep' ? pkg.dependencies : pkg.devDependencies;//检测package里面的那个属性
+
+function checkUpdate() {
+
+    let names = Object.keys(type);
+
+    //每一个dependencies的依赖逐个请求
+    let next = function () {
+
+        let name = names.shift();
+
+        //没有的时候停止
+        if (!name) {
+            console.log('检测完成'.blue);
+
+            if(needUpdataArr.length > 0){
+                let i,len = needUpdataArr.length,
+                    headStr = '发现可更新的包：\n',
+                    contentStr = '';
+
+                for(i = 0;i < len;i++){
+                    let curr = needUpdataArr[i];
+                    contentStr += `[${curr.name.yellow}] ${curr.localVersion.green} 可更新到 ${curr.remoteVersion.green}\n`;
+
+                }
+                console.log(headStr + contentStr);
+            }
+
+            return process.exit(0);
+
+        };
+
+        //组件请求接口
+        let url = config.znpmRegistry + '/' + name + '/latest';
+
+        /**
+         * 请求cnpm接口
+         * @param result --- 相当于cnpm线上的包的package的信息
+         * **/
+
+        urllib.request(url, {headers: {'user-agent': 'cnpm-check'}}, function (err, result) {
+            var errmsg = '';
+            if (err) {
+                errmsg = err.message;
+            } else {
+                try {
+                    result = JSON.parse(result);
+                } catch (e) {
+                    errmsg = 'parse origin package info error. ' + err.message;
+                    result = {};
+                }
+            }
+
+            if (errmsg) {
+                console.log(`包名称[${name.red}] 获取版本号失败！\n失败信息: ${err.message.red}`);
+                return next();
+            }
+
+            var localVersion = String(type[name] || '*');
+            var localVersionCheck = localVersion.replace(/^[^\.\d]+/g, '');
+            var remoteVersion = result && result.version || 'unknow';
+
+            console.log('包名称: [' + name.yellow + '] 最新包版本: ' + remoteVersion.green + ', 当前依赖版本: ' + localVersionCheck.yellow);
+
+            //统计需要可以更新的包信息
+            if(compare(remoteVersion,localVersionCheck)){
+                needUpdataArr.push({
+                    name : name,
+                    localVersion : localVersionCheck,
+                    remoteVersion : remoteVersion
+                })
+            }
+
+            next();
+        });
+
+    }
+
+
+    next();
+}
+
+checkUpdate();
+
+//比较包版本
+function compare(remote, local) {
+    let remoteVersion = parseInt(remote.split('.').join(''));
+    let localVersion = parseInt(local.split('.').join(''));
+    if(remoteVersion > localVersion){
+        return true;
+    }
+    return false;
+}

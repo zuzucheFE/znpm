@@ -15,15 +15,22 @@ $ npm install zuzuche-npm -g
 
 如何使用
 ------------
+这还用问,当然去看cnpm的用法,你会用npm就会用cnpm,那你觉得你会不会用znpm吗?
 ```shell
 znpm install <command> 
 ```
-这还用问,当然去看cnpm的用法,你会用npm就会用cnpm,那你觉得你会不会用znpm吗?
+打开私有npm的页面
 
 ```shell
 znpm web
 ```
-打开私有npm的页面
+检测当前目录下的依赖包的版本，是否可以更新
+```shell
+znpm check //默认检测package.json里面的devDependencies依赖的包
+
+znpm check dep //检测package.json里面的dependencies依赖的包
+
+```
 
 
 
