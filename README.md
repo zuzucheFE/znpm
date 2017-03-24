@@ -15,10 +15,16 @@ $ npm install zuzuche-npm -g
 
 如何使用
 ------------
-```
-$ znpm install <command> 
+```shell
+znpm install <command> 
 ```
 这还用问,当然去看cnpm的用法,你会用npm就会用cnpm,那你觉得你会不会用znpm吗?
+
+```shell
+znpm web
+```
+打开私有npm的页面
+
 
 
 提示
