@@ -51,7 +51,7 @@ function checkUpdate() {
         };
 
         //组件请求接口
-        let url = config.znpmRegistry + '/' + name + '/latest';
+        let url = config.cnpmRegistry + '/' + name + '/latest';
 
         /**
          * 请求cnpm接口
