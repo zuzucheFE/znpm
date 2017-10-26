@@ -1,6 +1,6 @@
 {
   "name": "zuzuche-npm",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "一个参考cnpm的做法，然后修改了一些自己需要的参数的npm，租租车的npm，znpm",
   "main": "./bin/znpm",
   "scripts": {
