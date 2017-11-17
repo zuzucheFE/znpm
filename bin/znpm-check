@@ -51,8 +51,7 @@ function checkUpdate() {
         };
 
         //组件请求接口
-        // let url = config.cnpmRegistry + '/' + name + '/latest';
-        let url = config.npmRegistry + '/' + name + '/latest';//先使用npm的源
+        let url = config.cnpmRegistry + '/' + name + '/latest';
 
         /**
          * 请求cnpm接口
